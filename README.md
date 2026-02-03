@@ -1,6 +1,6 @@
-# Hackathon IA & Matching — Prototype
+# SkillBridge — Prototype
 
-Prototype de chatbot pour le matching stage/alternance basé sur les référentiels RNCP.
+SkillBridge est un prototype de chatbot pour le matching stage/alternance basé sur les référentiels RNCP.
 
 ## Prérequis
 - Python 3.10+ recommandé
