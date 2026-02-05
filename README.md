@@ -1,6 +1,7 @@
 # SkillBridge — Prototype
 
 SkillBridge est un prototype de chatbot pour le matching stage/alternance basé sur les référentiels RNCP.
+Projet réalisé dans le cadre du hackathon IA & Matching (Epitech x Linkpick).
 
 ## Prérequis
 - Python 3.10+ recommandé
@@ -14,11 +15,18 @@ pip install -r requirements.txt
 
 ## Lancer l’application
 ```bash
+export FLASK_SECRET_KEY="your-strong-secret"
 python3 app/app.py
 ```
 Puis ouvrir :
 ```
 http://127.0.0.1:5000
+```
+
+## Makefile
+```bash
+make run
+make run-dev
 ```
 
 ## Fonctionnalités
@@ -32,6 +40,10 @@ Les CSV RNCP doivent être présents dans :
 ```
 export-fiches-csv-2026-02-02/
 ```
+
+## Configuration
+- `FLASK_SECRET_KEY` obligatoire.
+- `FLASK_ENV=development` pour le mode debug.
 
 ## Remarques
 - Le parsing CV fonctionne sur des **PDF textuels** (pas d’OCR).

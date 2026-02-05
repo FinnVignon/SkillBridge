@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% set body_class = "about" %}
+{% set show_ad = true %}
+
+{% block title %}SkillBridge · À propos{% endblock %}
+
+{% block content %}
+<section class="hero hero-about">
+  <div class="hero-copy">
+    <p class="eyebrow">À propos</p>
+    <h1>Un pont clair entre besoins métiers et référentiels RNCP.</h1>
+    <p class="sub">SkillBridge accélère la compréhension des fiches RNCP pour des décisions pédagogiques et RH plus rapides.</p>
+  </div>
+  <div class="hero-panel">
+    <h2>Notre approche</h2>
+    <ul class="hero-list">
+      <li>Données RNCP structurées.</li>
+      <li>Analyse sémantique des compétences.</li>
+      <li>Résultats expliqués et hiérarchisés.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="flow">
+  <div class="flow-head">
+    <h2>Prototype hackathon</h2>
+    <p>Ce projet a été construit dans le cadre du hackathon IA & Matching (Epitech x Linkpick) pour démontrer la faisabilité d’un assistant RNCP.</p>
+  </div>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="step-index">Objectif</span>
+      <h3>Matching intelligent</h3>
+      <p>Relier CV, offres et référentiels RNCP avec une conversation naturelle.</p>
+    </div>
+    <div class="flow-step">
+      <span class="step-index">Valeur</span>
+      <h3>Explication claire</h3>
+      <p>Justifier pourquoi un profil correspond (ou non) à une offre.</p>
+    </div>
+    <div class="flow-step">
+      <span class="step-index">Périmètre</span>
+      <h3>Prototype</h3>
+      <p>Une base fonctionnelle destinée à être enrichie après la démo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about-grid">
+  <article class="about-card">
+    <h2>Pourquoi SkillBridge</h2>
+    <p>Les intitulés métiers varient, les référentiels restent. Nous faisons le lien de manière lisible et rapide.</p>
+  </article>
+  <article class="about-card">
+    <h2>Pour qui</h2>
+    <p>Écoles, employeurs, et étudiants qui veulent aligner projet, missions et niveau RNCP.</p>
+  </article>
+  <article class="about-card">
+    <h2>Ce que vous obtenez</h2>
+    <p>Un shortlist de fiches RNCP, des blocs de compétences, et un angle pédagogique clair.</p>
+  </article>
+</section>
+
+<section class="cta-band">
+  <div>
+    <h2>Essayez l’assistant</h2>
+    <p>Un parcours guidé pour obtenir des résultats fiables.</p>
+  </div>
+  <a class="button primary" href="{{ url_for('chat.chat', role='apprenant') }}">Lancer l’assistant</a>
+</section>
+{% endblock %}

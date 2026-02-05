@@ -1,57 +1,96 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SkillBridge</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
-  </head>
-  <body>
-    <div class="page">
-      <aside class="side-ad" aria-label="Publicité">
-        <img src="{{ url_for('ads', filename='fv-ad.png') }}" alt="Publicité" />
-      </aside>
-      <main class="container">
-      <header class="hero">
-        <div class="hero-text">
-          <p class="eyebrow">SkillBridge</p>
-          <h1>Trouvez la fiche idéale pour un stage</h1>
-          <p class="sub">Choisissez votre mode de recherche.</p>
-        </div>
-        <div class="hero-panel">
-          <div class="progress">
-            <span class="label">Mode</span>
-            <span class="value">Sélection</span>
-            <div class="bar">
-              <span style="width: 50%"></span>
-            </div>
-          </div>
-        </div>
-      </header>
+{% extends "base.html" %}
+{% set body_class = "home" %}
+{% set show_ad = true %}
 
-      <section class="choice-grid">
-        <a class="choice-card" href="{{ url_for('chat', role='apprenant') }}">
-          <h2>Apprenant</h2>
-          <p>Coaching carrière : reformulation, compétences et matching RNCP.</p>
-          <span class="choice-cta">Commencer</span>
-        </a>
-        <a class="choice-card muted" href="{{ url_for('chat', role='ecole') }}">
-          <h2>École</h2>
-          <p>Réserver un espace : conformité RNCP et missions pédagogiques.</p>
-          <span class="choice-cta">Espace réservé</span>
-        </a>
-        <a class="choice-card muted" href="{{ url_for('chat', role='employeur') }}">
-          <h2>Employeur</h2>
-          <p>Clarifier l’offre et identifier les profils compatibles.</p>
-          <span class="choice-cta">Espace réservé</span>
-        </a>
-        <a class="choice-card" href="{{ url_for('resume') }}">
-          <h2>Importer un CV</h2>
-          <p>Analyse automatique du CV et matching RNCP.</p>
-          <span class="choice-cta">Importer</span>
-        </a>
-      </section>
-      </main>
+{% block title %}SkillBridge · Accueil{% endblock %}
+
+{% block content %}
+<section class="hero hero-home">
+  <div class="hero-copy">
+    <p class="eyebrow">Assistant RNCP nouvelle génération</p>
+    <h1>Transformez une offre ou un CV en fiches RNCP claires, fiables, actionnables.</h1>
+    <p class="sub">SkillBridge guide écoles, employeurs et apprenants vers les bons référentiels, sans jargon ni friction.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="{{ url_for('chat.chat', role='apprenant') }}">Lancer l’assistant</a>
+      <a class="button ghost" href="{{ url_for('resume.resume') }}">Analyser un CV</a>
     </div>
-  </body>
-</html>
+    <div class="hero-kpis">
+      <div class="kpi">
+        <span class="kpi-value">4 min</span>
+        <span class="kpi-label">pour un matching</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-value">3 modes</span>
+        <span class="kpi-label">apprenant, école, employeur</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-value">RNCP</span>
+        <span class="kpi-label">données 2026</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-glass">
+    <div class="glass-card">
+      <p class="glass-title">Diagnostic express</p>
+      <p class="glass-sub">Un dialogue guidé pour obtenir une liste hiérarchisée de fiches.</p>
+      <div class="glass-steps">
+        <span>1. Poste ciblé</span>
+        <span>2. Domaine</span>
+        <span>3. Compétences</span>
+      </div>
+    </div>
+    <div class="glass-card emphasis">
+      <p class="glass-title">Analyse CV</p>
+      <p class="glass-sub">Extraction automatique des compétences et niveau RNCP.</p>
+      <a class="link-arrow" href="{{ url_for('resume.resume') }}">Importer un CV</a>
+    </div>
+  </div>
+</section>
+
+<section class="feature-grid">
+  <article class="feature">
+    <h2>Mode Apprenant</h2>
+    <p>Clarifiez un projet de stage, identifiez les blocs de compétences, et obtenez des fiches RNCP cohérentes.</p>
+  </article>
+  <article class="feature">
+    <h2>Mode École</h2>
+    <p>Validez l’alignement d’une offre de stage avec votre parcours pédagogique et les exigences RNCP.</p>
+  </article>
+  <article class="feature">
+    <h2>Mode Employeur</h2>
+    <p>Traduisez une offre métier en référentiels officiels pour sécuriser la conformité et le niveau attendu.</p>
+  </article>
+</section>
+
+<section class="flow">
+  <div class="flow-head">
+    <h2>Comment ça marche</h2>
+    <p>Une méthodologie guidée pour rester simple, précis, et documenté.</p>
+  </div>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="step-index">01</span>
+      <h3>Cadrez</h3>
+      <p>Poste, domaine, compétences : un dialogue court pour poser le contexte.</p>
+    </div>
+    <div class="flow-step">
+      <span class="step-index">02</span>
+      <h3>Analysez</h3>
+      <p>Scoring et priorisation, avec prise en compte du niveau RNCP.</p>
+    </div>
+    <div class="flow-step">
+      <span class="step-index">03</span>
+      <h3>Décidez</h3>
+      <p>Consultez les fiches recommandées et leurs blocs de compétences.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div>
+    <h2>Prêt à guider un étudiant ou une offre ?</h2>
+    <p>Essayez l’assistant en mode apprenant, école ou employeur.</p>
+  </div>
+  <a class="button primary" href="{{ url_for('chat.chat', role='apprenant') }}">Commencer</a>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% set body_class = "error" %}
+{% set show_ad = true %}
+
+{% block title %}SkillBridge · Erreur{% endblock %}
+
+{% block content %}
+<section class="hero hero-error">
+  <div class="hero-copy">
+    <p class="eyebrow">Erreur {{ code }}</p>
+    <h1>{{ message }}</h1>
+    <p class="sub">Retournez à l’accueil pour relancer une recherche.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="{{ url_for('home.home') }}">Retour accueil</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

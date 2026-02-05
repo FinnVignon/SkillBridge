@@ -1,251 +1,222 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SkillBridge - Recherche par mots-clés</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
-  </head>
-  <body data-step="{{ step }}" data-total-steps="{{ total_steps }}" class="{{ 'chat-mode' if not done else '' }}">
-    <div class="page">
-      <aside class="side-ad" aria-label="Publicité">
-        <img src="{{ url_for('ads', filename='fv-ad.png') }}" alt="Publicité" />
-      </aside>
-      <main class="container">
-      <header class="hero">
-        <div class="hero-text">
-          <p class="eyebrow">SkillBridge</p>
-          <h1>Orientez un étudiant vers les meilleures fiches</h1>
-          <p class="sub">Un dialogue court pour préciser le poste, le domaine et les compétences clés.</p>
-        </div>
-        <div class="hero-panel">
-          <div class="progress">
-            <span class="label">Étape</span>
-            <span class="value">{{ step + 1 if step < total_steps else total_steps }} / {{ total_steps }}</span>
-            <div class="bar">
-              <span style="width: {{ ((step if step < total_steps else total_steps) / total_steps) * 100 }}%"></span>
-            </div>
-          </div>
-        </div>
-      </header>
-      <div class="toolbar">
-        <a class="ghost-link" href="{{ url_for('home') }}">Retour au menu</a>
-        <span class="role-chip">{{ role }}</span>
+{% extends "base.html" %}
+{% set body_class = "chat" %}
+{% set body_data = {"step": step, "total-steps": total_steps} %}
+{% set show_ad = true %}
+
+{% block title %}SkillBridge · Assistant{% endblock %}
+
+{% block content %}
+<section class="hero hero-assistant">
+  <div class="hero-copy">
+    <p class="eyebrow">Assistant RNCP</p>
+    <h1>Orientez un étudiant vers les fiches les plus pertinentes.</h1>
+    <p class="sub">Un dialogue court pour affiner poste, domaine et compétences clés.</p>
+    <div class="progress-card">
+      <div>
+        <span class="progress-label">Progression</span>
+        <strong>{{ step + 1 if step < total_steps else total_steps }} / {{ total_steps }}</strong>
       </div>
-
-      {% if not done %}
-        <section class="chat" id="chat-feed">
-          {% if current_question or default_question %}
-            <div class="msg bot">
-              <div class="avatar">RN</div>
-              <div class="bubble">
-                <span class="label">Conseiller</span>
-                <p>{{ current_question if current_question else default_question }}</p>
-              </div>
-            </div>
-          {% endif %}
-          <div class="msg bot searching" id="searching">
-            <div class="avatar">RN</div>
-            <div class="bubble">
-              <span class="label">Conseiller</span>
-              <p>Je recherche les meilleures fiches…</p>
-              <div class="dots"><span></span><span></span><span></span></div>
-            </div>
-          </div>
-        </section>
-      {% endif %}
-
-      {% if not done %}
-        <form method="post" class="search" id="chat-form">
-          <label class="input-label">Votre réponse</label>
-          <textarea name="query" placeholder="Réponse (séparez par ; si besoin)" rows="2"></textarea>
-          <input type="hidden" name="action" id="action-field" value="send" />
-          <div class="actions">
-            <button type="submit" class="primary">{{ "Continuer" if step < total_steps else "Relancer une recherche" }}</button>
-            <button type="submit" class="ghost" id="skip-btn">Passer cette question</button>
-          </div>
-        </form>
-      {% endif %}
-
-      {% if done and keywords %}
-      <section class="keywords">
-        <h2>Critères retenus</h2>
-        <div class="criteria-grid">
-          {% set labels = {"job_title": "Poste", "domaine": "Domaine", "competences": "Compétences", "niveau": "Niveau", "rome": "ROME", "formacode": "Formacode"} %}
-          {% for cat, k in keywords %}
-            <div class="criteria-card">
-              <span class="criteria-label">{{ labels.get(cat, cat) }}</span>
-              <p>{{ k }}</p>
-            </div>
-          {% endfor %}
-        </div>
-      </section>
-      {% endif %}
-
-      {% if done %}
-        <form method="post" class="search">
-          <input type="hidden" name="action" value="restart" />
-          <div class="actions">
-            <button type="submit" class="primary">Retour au menu</button>
-          </div>
-        </form>
-
-      <section class="results">
-        <h2>Résultats</h2>
-        {% if analysis %}
-          <div class="analysis-card">
-            {% for k, v in analysis.items() %}
-              <p><strong>{{ k|capitalize }} :</strong> {{ v }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
-        {% if results %}
-          <div class="result-group">
-            <h3>Correspondances fortes</h3>
-            {% set nb = namespace(has_best=false) %}
-            {% for fiche, score, matched, matched_count, expected in results %}
-              {% if matched_count == expected %}
-                {% set nb.has_best = true %}
-                <article class="card">
-                  <div class="card-head">
-                    <h3>{{ fiche.intitule or fiche.numero }}</h3>
-                  {% set rncp_link = fiche.numero|rncp_url %}
-                  {% if rncp_link %}
-                    <a class="badge" href="{{ rncp_link }}" target="_blank" rel="noopener noreferrer">{{ fiche.numero }}</a>
-                  {% else %}
-                    <span class="badge">{{ fiche.numero }}</span>
-                  {% endif %}
-                  </div>
-                  <div class="meta">
-                    {% if fiche.niveau_intitule %}<span>{{ fiche.niveau_intitule }}</span>{% endif %}
-                    {% if fiche.actif %}<span>Statut: {{ fiche.actif }}</span>{% endif %}
-                    <span>Score: {{ score }}</span>
-                  </div>
-                  {% if fiche.rome_labels %}
-                    <p><strong>ROME:</strong> {{ fiche.rome_labels|join(', ') }}</p>
-                  {% endif %}
-                  {% if fiche.formacode_labels %}
-                    <p><strong>Formacode:</strong> {{ fiche.formacode_labels|join(', ') }}</p>
-                  {% endif %}
-                  {% if fiche.blocs %}
-                    <details>
-                      <summary>Blocs de compétences</summary>
-                      <ul>
-                        {% for b in fiche.blocs %}<li>{{ b }}</li>{% endfor %}
-                      </ul>
-                    </details>
-                  {% endif %}
-                {% if matched %}
-                  <div class="tags">
-                    {% for m in matched %}<span class="tag">{{ m }}</span>{% endfor %}
-                  </div>
-                {% endif %}
-              </article>
-              {% endif %}
-            {% endfor %}
-            {% if not nb.has_best %}
-              <p class="empty">Aucune correspondance exacte. Essayez d’élargir un critère.</p>
-            {% endif %}
-          </div>
-
-          {% set ns = namespace(has_less=false) %}
-          <div class="result-group">
-            {% for fiche, score, matched, matched_count, expected in results %}
-              {% if matched_count < expected %}
-                {% set ns.has_less = true %}
-              {% endif %}
-            {% endfor %}
-            {% if ns.has_less %}
-              <button type="button" class="toggle" id="toggle-less">Explorer des pistes proches</button>
-            {% endif %}
-            <div class="less-results" id="less-results">
-              {% for fiche, score, matched, matched_count, expected in results %}
-                {% if matched_count < expected %}
-                  <article class="card">
-                    <div class="card-head">
-                      <h3>{{ fiche.intitule or fiche.numero }}</h3>
-                      {% set rncp_link = fiche.numero|rncp_url %}
-                      {% if rncp_link %}
-                        <a class="badge" href="{{ rncp_link }}" target="_blank" rel="noopener noreferrer">{{ fiche.numero }}</a>
-                      {% else %}
-                        <span class="badge">{{ fiche.numero }}</span>
-                      {% endif %}
-                    </div>
-                    <div class="meta">
-                      {% if fiche.niveau_intitule %}<span>{{ fiche.niveau_intitule }}</span>{% endif %}
-                      {% if fiche.actif %}<span>Statut: {{ fiche.actif }}</span>{% endif %}
-                      <span>Score: {{ score }}</span>
-                    </div>
-                    {% if fiche.rome_labels %}
-                      <p><strong>ROME:</strong> {{ fiche.rome_labels|join(', ') }}</p>
-                    {% endif %}
-                    {% if fiche.formacode_labels %}
-                      <p><strong>Formacode:</strong> {{ fiche.formacode_labels|join(', ') }}</p>
-                    {% endif %}
-                    {% if fiche.blocs %}
-                      <details>
-                        <summary>Blocs de compétences</summary>
-                        <ul>
-                          {% for b in fiche.blocs %}<li>{{ b }}</li>{% endfor %}
-                        </ul>
-                      </details>
-                    {% endif %}
-                    {% if matched %}
-                      <div class="tags">
-                        {% for m in matched %}<span class="tag">{{ m }}</span>{% endfor %}
-                      </div>
-                    {% endif %}
-                  </article>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-        {% else %}
-          <p class="empty">Aucun résultat avec ces critères. Essayez d’élargir la recherche.</p>
-        {% endif %}
-      </section>
-      {% endif %}
-
-      
-      </main>
+      <div class="progress-bar">
+        <span style="width: {{ ((step if step < total_steps else total_steps) / total_steps) * 100 }}%"></span>
+      </div>
+      <span class="role-pill">{{ role }}</span>
     </div>
-    <script>
-      const form = document.getElementById("chat-form");
-      const searching = document.getElementById("searching");
-      const step = parseInt(document.body.dataset.step || "0", 10);
-      const totalSteps = parseInt(document.body.dataset.totalSteps || "0", 10);
-      const toggle = document.getElementById("toggle-less");
-      const lessResults = document.getElementById("less-results");
-      const actionField = document.getElementById("action-field");
-      const skipBtn = document.getElementById("skip-btn");
-      const chatFeed = document.getElementById("chat-feed");
+  </div>
+  <div class="hero-panel">
+    <h2>Instructions rapides</h2>
+    <ul class="hero-list">
+      <li>Utilisez “;” pour séparer des mots-clés.</li>
+      <li>Précisez un niveau RNCP si nécessaire.</li>
+      <li>Vous pouvez passer une question.</li>
+    </ul>
+    <a class="link-arrow" href="{{ url_for('home.home') }}">Retour accueil</a>
+  </div>
+</section>
 
-      if (chatFeed) {
-        chatFeed.scrollTop = chatFeed.scrollHeight;
-      }
+<div class="chat-layout">
+  <section class="chat-feed" id="chat-feed">
+    {% for item in history %}
+      {% if item.role == 'bot' %}
+        <div class="msg bot">
+          <div class="avatar">SB</div>
+          <div class="bubble">
+            <span class="label">Conseiller</span>
+            <p>{{ item.text }}</p>
+          </div>
+        </div>
+      {% elif item.role == 'user' %}
+        <div class="msg user">
+          <div class="bubble">
+            <span class="label">Vous</span>
+            <p>{{ item.text }}</p>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
 
-      if (form) {
-        form.addEventListener("submit", (event) => {
-          if (step === totalSteps - 1) {
-            event.preventDefault();
-            searching.classList.add("active");
-            setTimeout(() => form.submit(), 1200);
-          }
-        });
-      }
+    <div class="msg bot searching" id="searching">
+      <div class="avatar">SB</div>
+      <div class="bubble">
+        <span class="label">Conseiller</span>
+        <p>Je recherche les meilleures fiches…</p>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </section>
 
-      if (skipBtn && actionField) {
-        skipBtn.addEventListener("click", () => {
-          actionField.value = "skip";
-        });
-      }
+  <section class="chat-input">
+    {% if not done %}
+    <form method="post" class="search" id="chat-form">
+      <label class="input-label">Votre réponse</label>
+      <textarea name="query" placeholder="Réponse (séparez par ; si besoin)" rows="3"></textarea>
+      <input type="hidden" name="action" id="action-field" value="send" />
+      <div class="actions">
+        <button type="submit" class="button primary">{{ "Continuer" if step < total_steps else "Relancer une recherche" }}</button>
+        <button type="submit" class="button ghost" id="skip-btn">Passer cette question</button>
+      </div>
+    </form>
+    {% endif %}
 
-      if (toggle && lessResults) {
-        toggle.addEventListener("click", () => {
-          const open = lessResults.classList.toggle("open");
-          toggle.textContent = open ? "Masquer les pistes proches" : "Explorer des pistes proches";
-        });
-      }
-    </script>
-  </body>
-</html>
+    {% if done %}
+    <form method="post" class="search">
+      <input type="hidden" name="action" value="restart" />
+      <div class="actions">
+        <button type="submit" class="button primary">Retour au menu</button>
+      </div>
+    </form>
+    {% endif %}
+  </section>
+</div>
+
+{% if done and keywords %}
+<section class="keywords">
+  <h2>Critères retenus</h2>
+  <div class="criteria-grid">
+    {% set labels = {"job_title": "Poste", "domaine": "Domaine", "competences": "Compétences", "niveau": "Niveau", "rome": "ROME", "formacode": "Formacode"} %}
+    {% for cat, k in keywords %}
+      <div class="criteria-card">
+        <span class="criteria-label">{{ labels.get(cat, cat) }}</span>
+        <p>{{ k }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if done %}
+<section class="results">
+  <h2>Résultats</h2>
+  {% if analysis %}
+    <div class="analysis-card">
+      {% for k, v in analysis.items() %}
+        <p><strong>{{ k|capitalize }} :</strong> {{ v }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if results %}
+    <div class="result-group">
+      <h3>Correspondances fortes</h3>
+      {% set nb = namespace(has_best=false) %}
+      {% for fiche, score, matched, matched_count, expected in results %}
+        {% if matched_count == expected %}
+          {% set nb.has_best = true %}
+          <article class="card">
+            <div class="card-head">
+              <h3>{{ fiche.intitule or fiche.numero }}</h3>
+              {% set rncp_link = fiche.numero|rncp_url %}
+              {% if rncp_link %}
+                <a class="badge" href="{{ rncp_link }}" target="_blank" rel="noopener noreferrer">{{ fiche.numero }}</a>
+              {% else %}
+                <span class="badge">{{ fiche.numero }}</span>
+              {% endif %}
+            </div>
+            <div class="meta">
+              {% if fiche.niveau_intitule %}<span>{{ fiche.niveau_intitule }}</span>{% endif %}
+              {% if fiche.actif %}<span>Statut: {{ fiche.actif }}</span>{% endif %}
+              <span>Score: {{ score }}</span>
+            </div>
+            {% if fiche.rome_labels %}
+              <p><strong>ROME:</strong> {{ fiche.rome_labels|join(', ') }}</p>
+            {% endif %}
+            {% if fiche.formacode_labels %}
+              <p><strong>Formacode:</strong> {{ fiche.formacode_labels|join(', ') }}</p>
+            {% endif %}
+            {% if fiche.blocs %}
+              <details>
+                <summary>Blocs de compétences</summary>
+                <ul>
+                  {% for b in fiche.blocs %}<li>{{ b }}</li>{% endfor %}
+                </ul>
+              </details>
+            {% endif %}
+            {% if matched %}
+              <div class="tags">
+                {% for m in matched %}<span class="tag">{{ m }}</span>{% endfor %}
+              </div>
+            {% endif %}
+          </article>
+        {% endif %}
+      {% endfor %}
+      {% if not nb.has_best %}
+        <p class="empty">Aucune correspondance exacte. Essayez d’élargir un critère.</p>
+      {% endif %}
+    </div>
+
+    {% set ns = namespace(has_less=false) %}
+    <div class="result-group">
+      {% for fiche, score, matched, matched_count, expected in results %}
+        {% if matched_count < expected %}
+          {% set ns.has_less = true %}
+        {% endif %}
+      {% endfor %}
+      {% if ns.has_less %}
+        <button type="button" class="toggle" id="toggle-less">Explorer des pistes proches</button>
+      {% endif %}
+      <div class="less-results" id="less-results">
+        {% for fiche, score, matched, matched_count, expected in results %}
+          {% if matched_count < expected %}
+            <article class="card">
+              <div class="card-head">
+                <h3>{{ fiche.intitule or fiche.numero }}</h3>
+                {% set rncp_link = fiche.numero|rncp_url %}
+                {% if rncp_link %}
+                  <a class="badge" href="{{ rncp_link }}" target="_blank" rel="noopener noreferrer">{{ fiche.numero }}</a>
+                {% else %}
+                  <span class="badge">{{ fiche.numero }}</span>
+                {% endif %}
+              </div>
+              <div class="meta">
+                {% if fiche.niveau_intitule %}<span>{{ fiche.niveau_intitule }}</span>{% endif %}
+                {% if fiche.actif %}<span>Statut: {{ fiche.actif }}</span>{% endif %}
+                <span>Score: {{ score }}</span>
+              </div>
+              {% if fiche.rome_labels %}
+                <p><strong>ROME:</strong> {{ fiche.rome_labels|join(', ') }}</p>
+              {% endif %}
+              {% if fiche.formacode_labels %}
+                <p><strong>Formacode:</strong> {{ fiche.formacode_labels|join(', ') }}</p>
+              {% endif %}
+              {% if fiche.blocs %}
+                <details>
+                  <summary>Blocs de compétences</summary>
+                  <ul>
+                    {% for b in fiche.blocs %}<li>{{ b }}</li>{% endfor %}
+                  </ul>
+                </details>
+              {% endif %}
+              {% if matched %}
+                <div class="tags">
+                  {% for m in matched %}<span class="tag">{{ m }}</span>{% endfor %}
+                </div>
+              {% endif %}
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <p class="empty">Aucun résultat avec ces critères. Essayez d’élargir la recherche.</p>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

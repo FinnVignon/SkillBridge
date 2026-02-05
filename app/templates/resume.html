@@ -1,153 +1,134 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Importer un CV - SkillBridge</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
-  </head>
-  <body>
-    <div class="page">
-      <aside class="side-ad" aria-label="Publicité">
-        <img src="{{ url_for('ads', filename='fv-ad.png') }}" alt="Publicité" />
-      </aside>
-      <main class="container">
-      <header class="hero">
-        <div class="hero-text">
-          <p class="eyebrow">SkillBridge</p>
-          <h1>Importer un CV</h1>
-          <p class="sub">Analyse automatique du CV et suggestions RNCP.</p>
-        </div>
-        <div class="hero-panel">
-          <div class="progress">
-            <span class="label">Mode</span>
-            <span class="value">CV</span>
-            <div class="bar">
-              <span style="width: 80%"></span>
-            </div>
-          </div>
-        </div>
-      </header>
+{% extends "base.html" %}
+{% set body_class = "resume" %}
+{% set show_ad = true %}
 
-      <form method="post" class="search" enctype="multipart/form-data" id="resume-form">
-        <label class="input-label">CV en français (.pdf)</label>
-        <input type="file" name="cv" accept=".pdf" class="file-input" />
-        <div class="actions">
-          <button type="submit" class="primary">Analyser le CV</button>
-          <a class="ghost-link" href="{{ url_for('home') }}">Retour</a>
-        </div>
-        {% if error %}
-          <p class="empty">{{ error }}</p>
-        {% endif %}
-      </form>
+{% block title %}SkillBridge · Analyse CV{% endblock %}
 
-      {% if keywords %}
-      <section class="keywords">
-        <h2>Critères retenus</h2>
-        <div class="criteria-grid">
-          {% set labels = {"job_title": "Poste", "domaine": "Domaine", "competences": "Compétences", "niveau": "Niveau", "rome": "ROME", "formacode": "Formacode"} %}
-          {% for cat, k in keywords %}
-            <div class="criteria-card">
-              <span class="criteria-label">{{ labels.get(cat, cat) }}</span>
-              <p>{{ k }}</p>
-            </div>
-          {% endfor %}
-        </div>
-      </section>
-      {% endif %}
+{% block content %}
+<section class="hero hero-resume">
+  <div class="hero-copy">
+    <p class="eyebrow">Analyse CV</p>
+    <h1>Importez un CV pour obtenir un matching RNCP précis.</h1>
+    <p class="sub">Extraction automatique des compétences clés, du domaine et du niveau.</p>
+  </div>
+  <div class="hero-panel">
+    <h2>Pré-requis</h2>
+    <ul class="hero-list">
+      <li>PDF en français.</li>
+      <li>Un seul CV par analyse.</li>
+      <li>Résultats en quelques secondes.</li>
+    </ul>
+  </div>
+</section>
 
-      {% if results or fallback_results %}
-      <section class="results">
-        <h2>Résultats</h2>
-        <div class="result-group">
-          <h3>Correspondances fortes</h3>
-          {% set nb = namespace(has_best=false) %}
-          {% for fiche, score, matched, matched_count, expected in results %}
-            {% if matched_count == expected %}
-              {% set nb.has_best = true %}
-              <article class="card">
-                <div class="card-head">
-                  <h3>{{ fiche.intitule or fiche.numero }}</h3>
-                  {% set rncp_link = fiche.numero|rncp_url %}
-                  {% if rncp_link %}
-                    <a class="badge" href="{{ rncp_link }}" target="_blank" rel="noopener noreferrer">{{ fiche.numero }}</a>
-                  {% else %}
-                    <span class="badge">{{ fiche.numero }}</span>
-                  {% endif %}
-                </div>
-                <div class="meta">
-                  {% if fiche.niveau_intitule %}<span>{{ fiche.niveau_intitule }}</span>{% endif %}
-                  {% if fiche.actif %}<span>Statut: {{ fiche.actif }}</span>{% endif %}
-                  <span>Score: {{ score }}</span>
-                </div>
-                {% if fiche.rome_labels %}
-                  <p><strong>ROME:</strong> {{ fiche.rome_labels|join(', ') }}</p>
-                {% endif %}
-                {% if fiche.formacode_labels %}
-                  <p><strong>Formacode:</strong> {{ fiche.formacode_labels|join(', ') }}</p>
-                {% endif %}
-                {% if fiche.blocs %}
-                  <details>
-                    <summary>Blocs de compétences</summary>
-                    <ul>
-                      {% for b in fiche.blocs %}<li>{{ b }}</li>{% endfor %}
-                    </ul>
-                  </details>
-                {% endif %}
-              </article>
+<form method="post" class="search" enctype="multipart/form-data" id="resume-form">
+  <label class="input-label">CV (.pdf)</label>
+  <input type="file" name="cv" accept=".pdf" class="file-input" />
+  <div class="actions">
+    <button type="submit" class="button primary">Analyser le CV</button>
+    <a class="button ghost" href="{{ url_for('home.home') }}">Retour</a>
+  </div>
+  {% if error %}
+    <p class="empty">{{ error }}</p>
+  {% endif %}
+</form>
+
+{% if keywords %}
+<section class="keywords">
+  <h2>Critères retenus</h2>
+  <div class="criteria-grid">
+    {% set labels = {"job_title": "Poste", "domaine": "Domaine", "competences": "Compétences", "niveau": "Niveau", "rome": "ROME", "formacode": "Formacode"} %}
+    {% for cat, k in keywords %}
+      <div class="criteria-card">
+        <span class="criteria-label">{{ labels.get(cat, cat) }}</span>
+        <p>{{ k }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if results or fallback_results %}
+<section class="results">
+  <h2>Résultats</h2>
+  <div class="result-group">
+    <h3>Correspondances fortes</h3>
+    {% set nb = namespace(has_best=false) %}
+    {% for fiche, score, matched, matched_count, expected in results %}
+      {% if matched_count == expected %}
+        {% set nb.has_best = true %}
+        <article class="card">
+          <div class="card-head">
+            <h3>{{ fiche.intitule or fiche.numero }}</h3>
+            {% set rncp_link = fiche.numero|rncp_url %}
+            {% if rncp_link %}
+              <a class="badge" href="{{ rncp_link }}" target="_blank" rel="noopener noreferrer">{{ fiche.numero }}</a>
+            {% else %}
+              <span class="badge">{{ fiche.numero }}</span>
             {% endif %}
-          {% endfor %}
-          {% if not nb.has_best %}
-            <p class="empty">Aucune correspondance exacte. Essayez d’élargir un critère.</p>
+          </div>
+          <div class="meta">
+            {% if fiche.niveau_intitule %}<span>{{ fiche.niveau_intitule }}</span>{% endif %}
+            {% if fiche.actif %}<span>Statut: {{ fiche.actif }}</span>{% endif %}
+            <span>Score: {{ score }}</span>
+          </div>
+          {% if fiche.rome_labels %}
+            <p><strong>ROME:</strong> {{ fiche.rome_labels|join(', ') }}</p>
+          {% endif %}
+          {% if fiche.formacode_labels %}
+            <p><strong>Formacode:</strong> {{ fiche.formacode_labels|join(', ') }}</p>
+          {% endif %}
+          {% if fiche.blocs %}
+            <details>
+              <summary>Blocs de compétences</summary>
+              <ul>
+                {% for b in fiche.blocs %}<li>{{ b }}</li>{% endfor %}
+              </ul>
+            </details>
+          {% endif %}
+        </article>
+      {% endif %}
+    {% endfor %}
+    {% if not nb.has_best %}
+      <p class="empty">Aucune correspondance exacte. Essayez d’élargir un critère.</p>
+    {% endif %}
+  </div>
+  {% if fallback_results %}
+  <div class="result-group">
+    <h3>Correspondances possibles</h3>
+    {% for fiche, score, matched, matched_count, expected in fallback_results %}
+      <article class="card">
+        <div class="card-head">
+          <h3>{{ fiche.intitule or fiche.numero }}</h3>
+          {% set rncp_link = fiche.numero|rncp_url %}
+          {% if rncp_link %}
+            <a class="badge" href="{{ rncp_link }}" target="_blank" rel="noopener noreferrer">{{ fiche.numero }}</a>
+          {% else %}
+            <span class="badge">{{ fiche.numero }}</span>
           {% endif %}
         </div>
-        {% if fallback_results %}
-        <div class="result-group">
-          <h3>Correspondances possibles</h3>
-          {% for fiche, score, matched, matched_count, expected in fallback_results %}
-            <article class="card">
-              <div class="card-head">
-                <h3>{{ fiche.intitule or fiche.numero }}</h3>
-                {% set rncp_link = fiche.numero|rncp_url %}
-                {% if rncp_link %}
-                  <a class="badge" href="{{ rncp_link }}" target="_blank" rel="noopener noreferrer">{{ fiche.numero }}</a>
-                {% else %}
-                  <span class="badge">{{ fiche.numero }}</span>
-                {% endif %}
-              </div>
-              <div class="meta">
-                {% if fiche.niveau_intitule %}<span>{{ fiche.niveau_intitule }}</span>{% endif %}
-                {% if fiche.actif %}<span>Statut: {{ fiche.actif }}</span>{% endif %}
-                <span>Score: {{ score }}</span>
-              </div>
-              {% if fiche.rome_labels %}
-                <p><strong>ROME:</strong> {{ fiche.rome_labels|join(', ') }}</p>
-              {% endif %}
-              {% if fiche.formacode_labels %}
-                <p><strong>Formacode:</strong> {{ fiche.formacode_labels|join(', ') }}</p>
-              {% endif %}
-            </article>
-          {% endfor %}
+        <div class="meta">
+          {% if fiche.niveau_intitule %}<span>{{ fiche.niveau_intitule }}</span>{% endif %}
+          {% if fiche.actif %}<span>Statut: {{ fiche.actif }}</span>{% endif %}
+          <span>Score: {{ score }}</span>
         </div>
+        {% if fiche.rome_labels %}
+          <p><strong>ROME:</strong> {{ fiche.rome_labels|join(', ') }}</p>
         {% endif %}
-      </section>
-      {% endif %}
-      </main>
-    </div>
-    <div class="loading" id="loading">
-      <div class="loading-card">
-        <div class="spinner"></div>
-        <p>Analyse du CV en cours…</p>
-      </div>
-    </div>
-    <script>
-      const resumeForm = document.getElementById("resume-form");
-      const loading = document.getElementById("loading");
-      if (resumeForm) {
-        resumeForm.addEventListener("submit", () => {
-          loading.classList.add("active");
-        });
-      }
-    </script>
-  </body>
-</html>
+        {% if fiche.formacode_labels %}
+          <p><strong>Formacode:</strong> {{ fiche.formacode_labels|join(', ') }}</p>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+
+<div class="loading" id="loading">
+  <div class="loading-card">
+    <div class="spinner"></div>
+    <p>Analyse du CV en cours…</p>
+  </div>
+</div>
+{% endblock %}

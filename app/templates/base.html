@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}SkillBridge{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  {% set show_ad = show_ad|default(true) %}
+  <body class="{{ body_class|default('') }}{% if show_ad %} has-ad{% endif %}"{% if body_data %}{% for k, v in body_data.items() %} data-{{ k }}="{{ v }}"{% endfor %}{% endif %}>
+    <div class="page">
+      {% if show_ad %}
+      <aside class="side-ad" aria-label="Publicité">
+        <img src="{{ url_for('ads.ads', filename='fv-ad.png') }}" alt="Publicité" />
+      </aside>
+      {% endif %}
+      <header class="topbar">
+        <a class="logo" href="{{ url_for('home.home') }}">SkillBridge</a>
+        <nav class="nav">
+          <a href="{{ url_for('home.home') }}" class="nav-link">Accueil</a>
+          <a href="{{ url_for('chat.chat', role='apprenant') }}" class="nav-link">Assistant</a>
+          <a href="{{ url_for('resume.resume') }}" class="nav-link">Analyse CV</a>
+          <a href="{{ url_for('about.about') }}" class="nav-link">À propos</a>
+        </nav>
+        <div class="nav-cta">
+          <a class="button ghost" href="{{ url_for('chat.chat', role='apprenant') }}">Démarrer</a>
+        </div>
+      </header>
+      <main class="container">
+        {% block content %}{% endblock %}
+      </main>
+      <footer class="footer">
+        <p>SkillBridge · RNCP matching intelligent · 2026</p>
+      </footer>
+    </div>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
