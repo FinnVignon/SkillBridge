@@ -12,7 +12,7 @@
   --grad-2: #dd2a7b;
   --grad-3: #8134af;
   --grad-4: #515bd4;
-  --ad-width: 440px;
+  --ad-width: 420px;
 }
 
 * {
@@ -54,7 +54,7 @@ body.chat-mode {
 
 .side-ad img {
   width: 100%;
-  max-width: 420px;
+  max-width: 400px;
   height: auto;
   border-radius: 18px;
   box-shadow: var(--shadow);
