@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SkillBridge – Présentation Jury</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="deck" id="deck">
+      <section class="slide cover" id="slide-1" data-title="SkillBridge">
+        <div class="slide-content">
+          <p class="eyebrow">Prototype hackathon</p>
+          <h1>SkillBridge</h1>
+          <p class="lead">
+            Assistant de mise en relation pour l’alternance et le stage.
+            Un dialogue court pour clarifier un besoin et obtenir des résultats actionnables.
+          </p>
+          <div class="pill-row">
+            <span class="pill">Étudiant</span>
+            <span class="pill">Entreprise</span>
+            <span class="pill">RNCP</span>
+          </div>
+        </div>
+        <div class="cover-panel">
+          <div class="stat">
+            <span class="stat-value">2</span>
+            <span class="stat-label">parcours guidés</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">1</span>
+            <span class="stat-label">chatbot explicable</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">RNCP</span>
+            <span class="stat-label">données 2026</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-2" data-title="Contexte">
+        <div class="slide-content">
+          <p class="eyebrow">Contexte</p>
+          <h2>Le matching alternance/stage reste difficile</h2>
+          <div class="grid three">
+            <article class="card">
+              <h3>Étudiant</h3>
+              <p>Besoin de clarifier ses compétences et son projet.</p>
+            </article>
+            <article class="card">
+              <h3>École</h3>
+              <p>Cadre RNCP à respecter et montée en compétences à garantir.</p>
+            </article>
+            <article class="card">
+              <h3>Entreprise</h3>
+              <p>Offres parfois floues et attentes mal traduites.</p>
+            </article>
+          </div>
+          <p class="note">Notre objectif : réduire la friction et rendre le matching lisible.</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-3" data-title="Solution">
+        <div class="slide-content">
+          <p class="eyebrow">Solution</p>
+          <h2>Un assistant conversationnel qui structure et explique</h2>
+          <div class="grid three">
+            <article class="card accent">
+              <h3>Dialogue court</h3>
+              <p>Poste, domaine, compétences, niveau : 4 à 6 questions ciblées.</p>
+            </article>
+            <article class="card accent">
+              <h3>Matching clair</h3>
+              <p>Scoring et priorisation des résultats selon les critères.</p>
+            </article>
+            <article class="card accent">
+              <h3>Explicabilité</h3>
+              <p>Mots‑clés retenus et justification des recommandations.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-4" data-title="Parcours Étudiant">
+        <div class="slide-content">
+          <p class="eyebrow">Parcours étudiant</p>
+          <h2>Orienter vers les bonnes fiches RNCP</h2>
+          <div class="grid two">
+            <article class="card">
+              <h3>Collecte guidée</h3>
+              <ul class="list">
+                <li>Poste ou objectif visé.</li>
+                <li>Domaine d’activité.</li>
+                <li>Compétences clés.</li>
+                <li>Niveau RNCP souhaité.</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Résultats actionnables</h3>
+              <ul class="list">
+                <li>Fiches RNCP compatibles.</li>
+                <li>Blocs de compétences visibles.</li>
+                <li>Scores et mots‑clés associés.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-5" data-title="Parcours Entreprise">
+        <div class="slide-content">
+          <p class="eyebrow">Parcours entreprise</p>
+          <h2>Trouver des profils étudiants pertinents</h2>
+          <div class="grid two">
+            <article class="card">
+              <h3>Recherche ciblée</h3>
+              <ul class="list">
+                <li>Poste & domaine.</li>
+                <li>Compétences attendues.</li>
+                <li>Niveau d’étude.</li>
+                <li>École & localisation (optionnel).</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Base de profils</h3>
+              <ul class="list">
+                <li>Inscription étudiante dédiée.</li>
+                <li>Données centralisées en CSV.</li>
+                <li>Contact direct (email/portfolio).</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-6" data-title="Données & Matching">
+        <div class="slide-content">
+          <p class="eyebrow">Données & Matching</p>
+          <h2>Une approche simple, robuste et explicable</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <span class="time">Données</span>
+              <div>
+                <h3>RNCP 2026 + profils étudiants</h3>
+                <p>CSV RNCP officiels et inscriptions étudiants centralisées.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <span class="time">Traitement</span>
+              <div>
+                <h3>Normalisation & mots‑clés</h3>
+                <p>Extraction, nettoyage, stopwords, tokens par catégorie.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <span class="time">Scoring</span>
+              <div>
+                <h3>Priorisation des résultats</h3>
+                <p>Classement par pertinence + filtres de niveau RNCP.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-7" data-title="Démo & UI">
+        <div class="slide-content">
+          <p class="eyebrow">Démo</p>
+          <h2>Une expérience claire et rapide</h2>
+          <div class="grid three">
+            <article class="card">
+              <h3>Chat guidé</h3>
+              <p>Questions courtes, possibilité de passer un critère.</p>
+            </article>
+            <article class="card">
+              <h3>Résultats lisibles</h3>
+              <p>Cartes, scores, tags et critères retenus.</p>
+            </article>
+            <article class="card">
+              <h3>Inscription étudiant</h3>
+              <p>Formulaire simple pour enrichir la base de profils.</p>
+            </article>
+          </div>
+          <p class="note">Objectif : 1 minute pour obtenir une shortlist utile.</p>
+        </div>
+      </section>
+
+      <section class="slide finale" id="slide-8" data-title="Suite">
+        <div class="slide-content narrow">
+          <p class="eyebrow">Impact & suite</p>
+          <h2>Plus de clarté, moins de friction</h2>
+          <p>
+            Le prototype démontre une mise en relation explicable entre besoins et référentiels.
+            Prochaines étapes : inscription entreprises, base de données, matching sémantique,
+            et modération des profils.
+          </p>
+          <div class="cta">Merci — Questions ?</div>
+        </div>
+      </section>
+    </div>
+
+    <nav class="deck-nav" aria-label="Navigation">
+      <button class="nav-btn" id="prev" aria-label="Diapositive précédente">◀</button>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <button class="nav-btn" id="next" aria-label="Diapositive suivante">▶</button>
+    </nav>
+
+    <script>
+      const deck = document.getElementById("deck");
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const dots = document.getElementById("dots");
+      const prev = document.getElementById("prev");
+      const next = document.getElementById("next");
+
+      let index = 0;
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function go(to) {
+        index = clamp(to, 0, slides.length - 1);
+        deck.style.transform = `translateX(-${index * 100}vw)`;
+        slides.forEach((slide, i) => slide.setAttribute("aria-hidden", i !== index));
+        Array.from(dots.children).forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+        history.replaceState(null, "", `#${slides[index].id}`);
+      }
+
+      function goByHash() {
+        const hash = window.location.hash.replace("#", "");
+        const idx = slides.findIndex((slide) => slide.id === hash);
+        if (idx >= 0) {
+          go(idx);
+        } else {
+          go(0);
+        }
+      }
+
+      slides.forEach((slide, i) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "dot";
+        dot.title = slide.dataset.title || `Slide ${i + 1}`;
+        dot.addEventListener("click", () => go(i));
+        dots.appendChild(dot);
+      });
+
+      prev.addEventListener("click", () => go(index - 1));
+      next.addEventListener("click", () => go(index + 1));
+
+      document.addEventListener("keydown", (event) => {
+        if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+          event.preventDefault();
+          go(index + 1);
+        }
+        if (["ArrowLeft", "PageUp"].includes(event.key)) {
+          event.preventDefault();
+          go(index - 1);
+        }
+        if (event.key === "Home") {
+          event.preventDefault();
+          go(0);
+        }
+        if (event.key === "End") {
+          event.preventDefault();
+          go(slides.length - 1);
+        }
+      });
+
+      window.addEventListener("resize", () => go(index));
+      window.addEventListener("hashchange", goByHash);
+
+      goByHash();
+    </script>
+  </body>
+</html>
