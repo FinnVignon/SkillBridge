@@ -21,7 +21,6 @@ python3 app/app.py
 Puis ouvrir :
 ```
 http://127.0.0.1:8080
-http://[ton_ip]:8080
 ```
 
 ## Makefile
@@ -59,3 +58,4 @@ app/
 export-fiches-csv-2026-02-02/
 requirements.txt
 ```
+

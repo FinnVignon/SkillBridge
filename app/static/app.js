@@ -8,6 +8,32 @@
   const chatFeed = document.getElementById("chat-feed");
   const resumeForm = document.getElementById("resume-form");
   const loading = document.getElementById("loading");
+  const adToggle = document.getElementById("ad-toggle");
+
+  if (adToggle) {
+    const setAdHidden = (hidden) => {
+      document.body.classList.toggle("ad-hidden", hidden);
+      adToggle.setAttribute("aria-label", hidden ? "Afficher la publicité" : "Masquer la publicité");
+      adToggle.textContent = hidden ? "▶" : "×";
+      try {
+        localStorage.setItem("adHidden", hidden ? "1" : "0");
+      } catch {
+        // Ignore storage errors.
+      }
+    };
+
+    let hidden = false;
+    try {
+      hidden = localStorage.getItem("adHidden") === "1";
+    } catch {
+      hidden = false;
+    }
+    setAdHidden(hidden);
+
+    adToggle.addEventListener("click", () => {
+      setAdHidden(!document.body.classList.contains("ad-hidden"));
+    });
+  }
 
   if (chatFeed) {
     chatFeed.scrollTop = chatFeed.scrollHeight;

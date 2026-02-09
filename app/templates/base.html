@@ -11,6 +11,9 @@
     <div class="page">
       {% if show_ad %}
       <aside class="side-ad" aria-label="Publicité">
+        <button class="ad-toggle" type="button" id="ad-toggle" aria-label="Masquer la publicité">
+          <span aria-hidden="true">×</span>
+        </button>
         <a href="https://fv-portfolio.my.canva.site" target="_blank" rel="noopener noreferrer">
           <img src="{{ url_for('ads.ads', filename='fv-ad.png') }}" alt="Publicité" />
         </a>

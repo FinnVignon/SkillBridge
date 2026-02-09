@@ -8,13 +8,13 @@
   </head>
   <body>
     <div class="deck" id="deck">
-      <section class="slide cover" id="slide-1" data-title="SkillBridge">
+      <section class="slide cover" id="slide-1" data-title="Skillbridge">
         <div class="slide-content">
           <p class="eyebrow">Prototype hackathon</p>
           <h1>SkillBridge</h1>
           <p class="lead">
-            Assistant de mise en relation pour l’alternance et le stage.
-            Un dialogue court pour clarifier un besoin et obtenir des résultats actionnables.
+            Plateforme de mise en relation alternance et stage.
+            Un parcours court pour clarifier un besoin et obtenir une shortlist utile.
           </p>
           <div class="pill-row">
             <span class="pill">Étudiant</span>
@@ -24,12 +24,8 @@
         </div>
         <div class="cover-panel">
           <div class="stat">
-            <span class="stat-value">2</span>
-            <span class="stat-label">parcours guidés</span>
-          </div>
-          <div class="stat">
             <span class="stat-value">1</span>
-            <span class="stat-label">chatbot explicable</span>
+            <span class="stat-label">chatbot de matching</span>
           </div>
           <div class="stat">
             <span class="stat-value">RNCP</span>
@@ -38,162 +34,109 @@
         </div>
       </section>
 
-      <section class="slide" id="slide-2" data-title="Contexte">
+      <section class="slide" id="slide-2" data-title="Notre équipe">
         <div class="slide-content">
-          <p class="eyebrow">Contexte</p>
-          <h2>Le matching alternance/stage reste difficile</h2>
-          <div class="grid three">
-            <article class="card">
-              <h3>Étudiant</h3>
-              <p>Besoin de clarifier ses compétences et son projet.</p>
+          <p class="eyebrow">Qui sommes-nous ?</p>
+          <h1>Notre équipe</h1>
+          
+          <!-- <div class="grid three">
+            <article class="card accent">
+              <h3>Finn Vignon</h3>
             </article>
-            <article class="card">
-              <h3>École</h3>
-              <p>Cadre RNCP à respecter et montée en compétences à garantir.</p>
+            <article class="card accent">
+              <h3>Lucas Lucchesi</h3>
             </article>
-            <article class="card">
-              <h3>Entreprise</h3>
-              <p>Offres parfois floues et attentes mal traduites.</p>
+            <article class="card accent">
+              <h3>Axel Tomasini</h3>
             </article>
           </div>
-          <p class="note">Notre objectif : réduire la friction et rendre le matching lisible.</p>
+
+          <div class="grid two" style="margin-top: 20px;">
+            <article class="card accent">
+              <h3>Nael Bordin</h3>
+            </article>
+            <article class="card accent">
+              <h3>Enzo Luis</h3>
+            </article>
+          </div> -->
+          
         </div>
       </section>
 
-      <section class="slide" id="slide-3" data-title="Solution">
+      <section class="slide" id="slide-3" data-title="Problématique">
         <div class="slide-content">
-          <p class="eyebrow">Solution</p>
-          <h2>Un assistant conversationnel qui structure et explique</h2>
-          <div class="grid three">
+          <p class="eyebrow">Le constat</p>
+          <h2>La problématique</h2>
+          <p class="lead">
+            La rencontre entre l'offre de formation et le besoin entreprise est cassée.
+          </p>
+          <div class="grid two">
             <article class="card accent">
-              <h3>Dialogue court</h3>
-              <p>Poste, domaine, compétences, niveau : 4 à 6 questions ciblées.</p>
+              <h3>Côté Étudiant</h3>
+              <p>Difficulté à traduire son parcours académique en compétences métiers concrètes.</p>
             </article>
             <article class="card accent">
-              <h3>Matching clair</h3>
-              <p>Scoring et priorisation des résultats selon les critères.</p>
+              <h3>Côté Entreprise</h3>
+              <p>Méconnaissance des titres RNCP et difficulté à trier les profils juniors.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-4" data-title="Notre solution avec un chat bot">
+        <div class="slide-content">
+          <p class="eyebrow">Notre solution</p>
+          <h2>Un chat bot qui structure la demande et explique le match</h2>
+          <div class="grid three">
+            <article class="card accent">
+              <h3>Questions ciblées</h3>
+              <p>Poste, domaine, compétences, niveau : 4 à 6 questions maximum.</p>
+            </article>
+            <article class="card accent">
+              <h3>Résultats classés</h3>
+              <p>Scoring clair et priorisation selon les critères déclarés.</p>
             </article>
             <article class="card accent">
               <h3>Explicabilité</h3>
-              <p>Mots‑clés retenus et justification des recommandations.</p>
+              <p>Mots-clés retenus et justification des recommandations.</p>
             </article>
           </div>
+          <p class="note">Objectif : réduire la friction et rendre le matching lisible.</p>
         </div>
       </section>
 
-      <section class="slide" id="slide-4" data-title="Parcours Étudiant">
-        <div class="slide-content">
-          <p class="eyebrow">Parcours étudiant</p>
-          <h2>Orienter vers les bonnes fiches RNCP</h2>
-          <div class="grid two">
-            <article class="card">
-              <h3>Collecte guidée</h3>
-              <ul class="list">
-                <li>Poste ou objectif visé.</li>
-                <li>Domaine d’activité.</li>
-                <li>Compétences clés.</li>
-                <li>Niveau RNCP souhaité.</li>
-              </ul>
-            </article>
-            <article class="card">
-              <h3>Résultats actionnables</h3>
-              <ul class="list">
-                <li>Fiches RNCP compatibles.</li>
-                <li>Blocs de compétences visibles.</li>
-                <li>Scores et mots‑clés associés.</li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="slide" id="slide-5" data-title="Parcours Entreprise">
-        <div class="slide-content">
-          <p class="eyebrow">Parcours entreprise</p>
-          <h2>Trouver des profils étudiants pertinents</h2>
-          <div class="grid two">
-            <article class="card">
-              <h3>Recherche ciblée</h3>
-              <ul class="list">
-                <li>Poste & domaine.</li>
-                <li>Compétences attendues.</li>
-                <li>Niveau d’étude.</li>
-                <li>École & localisation (optionnel).</li>
-              </ul>
-            </article>
-            <article class="card">
-              <h3>Base de profils</h3>
-              <ul class="list">
-                <li>Inscription étudiante dédiée.</li>
-                <li>Données centralisées en CSV.</li>
-                <li>Contact direct (email/portfolio).</li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="slide" id="slide-6" data-title="Données & Matching">
-        <div class="slide-content">
-          <p class="eyebrow">Données & Matching</p>
-          <h2>Une approche simple, robuste et explicable</h2>
-          <div class="timeline">
-            <div class="timeline-item">
-              <span class="time">Données</span>
-              <div>
-                <h3>RNCP 2026 + profils étudiants</h3>
-                <p>CSV RNCP officiels et inscriptions étudiants centralisées.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <span class="time">Traitement</span>
-              <div>
-                <h3>Normalisation & mots‑clés</h3>
-                <p>Extraction, nettoyage, stopwords, tokens par catégorie.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <span class="time">Scoring</span>
-              <div>
-                <h3>Priorisation des résultats</h3>
-                <p>Classement par pertinence + filtres de niveau RNCP.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="slide" id="slide-7" data-title="Démo & UI">
+      <section class="slide" id="slide-5" data-title="Une démo">
         <div class="slide-content">
           <p class="eyebrow">Démo</p>
-          <h2>Une expérience claire et rapide</h2>
+          <h2>Une expérience rapide, claire et actionnable</h2>
           <div class="grid three">
             <article class="card">
               <h3>Chat guidé</h3>
-              <p>Questions courtes, possibilité de passer un critère.</p>
+              <p>Parcours court avec possibilité de passer un critère.</p>
             </article>
             <article class="card">
-              <h3>Résultats lisibles</h3>
-              <p>Cartes, scores, tags et critères retenus.</p>
+              <h3>Shortlist RNCP</h3>
+              <p>Cartes lisibles, scores et critères retenus.</p>
             </article>
             <article class="card">
-              <h3>Inscription étudiant</h3>
+              <h3>Profil étudiant</h3>
               <p>Formulaire simple pour enrichir la base de profils.</p>
             </article>
           </div>
-          <p class="note">Objectif : 1 minute pour obtenir une shortlist utile.</p>
+          <p class="note">1 minute pour obtenir des résultats exploitables.</p>
         </div>
       </section>
 
-      <section class="slide finale" id="slide-8" data-title="Suite">
+      <section class="slide finale" id="slide-6" data-title="Les axes d'amelioration">
         <div class="slide-content narrow">
-          <p class="eyebrow">Impact & suite</p>
-          <h2>Plus de clarté, moins de friction</h2>
-          <p>
-            Le prototype démontre une mise en relation explicable entre besoins et référentiels.
-            Prochaines étapes : inscription entreprises, base de données, matching sémantique,
-            et modération des profils.
-          </p>
+          <p class="eyebrow">Les axes d'amelioration</p>
+          <h2>Ce que nous allons renforcer</h2>
+          <ul class="list">
+            <li>Base de données persistante pour profils et offres.</li>
+            <li>Matching sémantique enrichi (synonymes, pondérations).</li>
+            <li>Tableau de bord entreprise pour suivre les candidatures.</li>
+            <li>Modération et qualité des données pour plus de fiabilité.</li>
+          </ul>
           <div class="cta">Merci — Questions ?</div>
         </div>
       </section>
